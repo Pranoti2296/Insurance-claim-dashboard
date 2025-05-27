@@ -174,3 +174,37 @@ fig7 = px.bar(diagnosis_data,
               color='Diagnosis',
               color_discrete_sequence=px.colors.qualitative.Pastel)
 st.plotly_chart(fig7, use_container_width=True, key="common_diagnosis_chart_v2")
+
+from sqlalchemy import create_engine
+from urllib.parse import quote_plus
+
+user = 'root'
+password = 'Pr@noti2296'
+host = 'localhost'
+port = 3306
+database = 'insurance_db'
+
+# URL encode the password to handle special characters like '@'
+password_encoded = quote_plus(password)
+
+# Create the connection string
+connection_string = f'mysql+pymysql://{user}:{password_encoded}@{host}:{port}/{database}'
+
+# Create the SQLAlchemy engine
+engine = create_engine(connection_string)
+
+# Test query
+df = pd.read_sql('SELECT * FROM insurance_claims', con=engine)
+print(df.head())
+
+
+# Load your CSV file into a DataFrame
+df = pd.read_csv('insurance_claims_dataset.csv', header=1)
+
+# Optional: Check your data
+print(df.head())
+
+# Write DataFrame to MySQL
+df.to_sql(name='insurance_claims', con=engine, if_exists='replace', index=False)
+
+print("Data loaded successfully!")
