@@ -1,8 +1,7 @@
 import pandas as pd
 
 # Step 1: Load Data
-file_path = "/Users/pranotipadave/insurance_claims_dataset.csv" 
-df = pd.read_csv('/Users/pranotipadave/insurance_claims_dataset.csv', header=1)
+df = pd.read_csv('insurance_claims_dataset.csv', header=1)
 
 # Step 2: Convert Dates to datetime
 df['Claim_Date'] = pd.to_datetime(df['Claim_Date'])
@@ -61,7 +60,7 @@ import streamlit as st
 import pandas as pd
 
 # Load the dataset
-df = pd.read_csv('/Users/pranotipadave/insurance_claims_dataset.csv', header=1)
+df = pd.read_csv('insurance_claims_dataset.csv', header=1)
 
 # Convert date columns
 df['Claim_Date'] = pd.to_datetime(df['Claim_Date'])
