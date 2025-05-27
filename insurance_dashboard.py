@@ -105,6 +105,7 @@ st.bar_chart(df['Diagnosis'].value_counts().head(5))
 
 import plotly.express as px
 
+
 # 📌 Claim Status Distribution
 st.subheader("📌 Claim Status Distribution")
 claim_status_data = df['Claim_Status'].value_counts().reset_index()
@@ -113,7 +114,7 @@ fig1 = px.bar(claim_status_data,
               x='Claim Status', y='Count',
               color='Claim Status',
               color_discrete_sequence=['#4CAF50', '#FF9800', '#F44336'])  # green, orange, red
-st.plotly_chart(fig1, use_container_width=True)
+st.plotly_chart(fig1, use_container_width=True, key="claim_status_chart")
 
 # 📌 Insurance Type Breakdown
 st.subheader("📌 Insurance Type Breakdown")
@@ -123,7 +124,7 @@ fig2 = px.bar(insurance_type_data,
               x='Insurance Type', y='Count',
               color='Insurance Type',
               color_discrete_sequence=px.colors.qualitative.Set3)
-st.plotly_chart(fig2, use_container_width=True)
+st.plotly_chart(fig2, use_container_width=True, key="insurance_type_chart")
 
 # 📌 Top 5 Hospitals by Claims
 st.subheader("📌 Top 5 Hospitals by Claims")
@@ -133,7 +134,7 @@ fig3 = px.bar(hospital_data,
               x='Hospital', y='Count',
               color='Hospital',
               color_discrete_sequence=px.colors.sequential.Bluered)
-st.plotly_chart(fig3, use_container_width=True)
+st.plotly_chart(fig3, use_container_width=True, key="top_hospitals_chart")
 
 # 📌 Most Common Diagnoses
 st.subheader("📌 Most Common Diagnoses")
@@ -143,4 +144,34 @@ fig4 = px.bar(diagnosis_data,
               x='Diagnosis', y='Count',
               color='Diagnosis',
               color_discrete_sequence=px.colors.qualitative.Pastel)
-st.plotly_chart(fig4, use_container_width=True)
+st.plotly_chart(fig4, use_container_width=True, key="common_diagnosis_chart")
+
+# 📌 Insurance Type Breakdown
+st.subheader("📌 Insurance Type Breakdown")
+insurance_type_data = df['Insurance_Type'].value_counts().reset_index()
+insurance_type_data.columns = ['Insurance Type', 'Count']
+fig5 = px.bar(insurance_type_data,
+              x='Insurance Type', y='Count',
+              color='Insurance Type',
+              color_discrete_sequence=px.colors.qualitative.Set3)
+st.plotly_chart(fig5, use_container_width=True, key="insurance_type_chart_v2")
+
+# 📌 Top 5 Hospitals by Claims
+st.subheader("📌 Top 5 Hospitals by Claims")
+hospital_data = df['Hospital_Name'].value_counts().head(5).reset_index()
+hospital_data.columns = ['Hospital', 'Count']
+fig6 = px.bar(hospital_data,
+              x='Hospital', y='Count',
+              color='Hospital',
+              color_discrete_sequence=px.colors.sequential.Bluered)
+st.plotly_chart(fig6, use_container_width=True, key="top_hospitals_chart_v2")
+
+# 📌 Most Common Diagnoses
+st.subheader("📌 Most Common Diagnoses")
+diagnosis_data = df['Diagnosis'].value_counts().head(5).reset_index()
+diagnosis_data.columns = ['Diagnosis', 'Count']
+fig7 = px.bar(diagnosis_data,
+              x='Diagnosis', y='Count',
+              color='Diagnosis',
+              color_discrete_sequence=px.colors.qualitative.Pastel)
+st.plotly_chart(fig7, use_container_width=True, key="common_diagnosis_chart_v2")
