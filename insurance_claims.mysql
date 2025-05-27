@@ -1,0 +1,85 @@
+#Create a database
+CREATE DATABASE insurance_db;
+USE insurance_db;
+
+#Create a table
+CREATE TABLE insurance_claims (
+    Claim_ID INT PRIMARY KEY,
+    Claim_Date DATE,
+    Processed_Date DATE,
+    Claim_Amount DECIMAL(15,2),
+    Claim_Status VARCHAR(50),
+    Insurance_Type VARCHAR(50),
+    Hospital_Name VARCHAR(100),
+    Diagnosis VARCHAR(100),
+    Fraud_Flag VARCHAR(10)
+);
+
+SHOW TABLES;
+DESCRIBE insurance_claims;
+
+
+SELECT * FROM insurance_claims;
+
+#Get total number of claims
+SELECT COUNT(*) AS Total_claims
+FROM insurance_claims;
+
+#Total claim amount
+SELECT ROUND(SUM(Claim_Amount),2) AS Total_claim_amount
+FROM insurance_claims;
+
+#Average claim amount
+SELECT ROUND(AVG(Claim_Amount),2) AS average_claim_amount
+FROM insurance_claims;
+
+#Number of claims by status
+SELECT Claim_Status, COUNT(*) AS Count
+FROM insurance_claims
+GROUP BY Claim_Status;
+
+#Number of claims by insurance type
+SELECT Insurance_Type, COUNT(*) AS Count
+FROM insurance_claims
+GROUP BY Insurance_Type;
+
+#Top 5 hospitals by number of claims
+SELECT Hospital_Name, COUNT(*) AS Claim_count
+FROM insurance_claims
+GROUP BY Hospital_Name
+ORDER BY Claim_count DESC
+LIMIT 5;
+
+#Most common diagnoses (top 5)
+SELECT Diagnosis, COUNT(*) AS Count
+FROM insurance_claims
+GROUP BY Diagnosis
+ORDER BY Count DESC
+LIMIT 5;
+
+#Average settlement time in days
+SELECT ROUND(AVG(DATEDIFF(Processed_Date, Claim_Date)),0) AS Average_settlement_days
+FROM insurance_claims;
+
+#Total number of Frauds
+SELECT COUNT(*) AS Total_Frauds
+FROM insurance_claims
+WHERE LOWER(Fraud_Flag) = 'yes';
+
+
+#Percentage of fraudulent claims
+SELECT 
+ROUND((SUM(CASE 
+		WHEN LOWER(Fraud_Flag) = 'yes' THEN 1 
+        ELSE 0 
+        END) / COUNT(*)) * 100, 2) AS fraudulent_claim_percent
+FROM insurance_claims;
+
+#Claims count and amount by month
+SELECT 
+  DATE_FORMAT(Claim_Date, '%Y-%m') AS Claim_month,
+  COUNT(*) AS Claims_count,
+  ROUND(SUM(Claim_Amount),2) AS Total_Claim_amount
+FROM insurance_claims
+GROUP BY Claim_month
+ORDER BY Claim_month;
